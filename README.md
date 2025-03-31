@@ -68,10 +68,10 @@ A aplicação estará rodando em: `http://localhost:3001`
 | Médoto | ENDPOINT                | Descrição                                               |
 |--------|-------------------------|---------------------------------------------------------|
 | GET    | /api-ev?page=1&limit=3  | Lista todos os usuários (paginados por ordem alfabética)|
-| GET    | /api-ev/{id}            | Busca um usuário pelo ID                                |
+| GET    | /api-ev/:id            | Busca um usuário pelo ID                                |
 | POST   | /api-ev                 | Adiciona um novo usuário                                |
-| PUT    | /api-ev/{id}            | Atualiza um usuário                                     |
-| DELETE | /api-ev/{id}            | Remove um usuário                                       |
+| PUT    | /api-ev/:id            | Atualiza um usuário                                     |
+| DELETE | /api-ev/:id            | Remove um usuário                                       |
 
 ## 📑 Documentação da API
 
