@@ -12,7 +12,7 @@ export const addUserQuery = `
   VALUES (?, ?, ?)
 `;
 
-export const getAllUsersQuery = 'SELECT * FROM users ORDER BY name ASC';
+export const countQuery = `SELECT COUNT(*) AS total FROM users`;
 
 export const getUserByIdQuery = 'SELECT * FROM users WHERE id = ?';
 
