@@ -5,9 +5,13 @@ export interface IUserProps {
     phone: string;
 }
 
+export interface ICountResult {
+    total: number;
+}
+
 interface IUsersRepoository {
     addUser(data: IUserProps): Promise<IUserProps>;
-    getAllUsers(): Promise<IUserProps[]>;
+    getAllUsers(page: number, limit: number): Promise<{ users: IUserProps[], totalUsers: number }>;
     getUserById(id: number): Promise<IUserProps | null>;
     updateUser(id: number, data: Partial<IUserProps>): Promise<IUserProps | null>;
     deleteUser(id: number): Promise<string>;

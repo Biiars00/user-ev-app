@@ -1,13 +1,12 @@
 import { injectable } from 'tsyringe';
-import IUsersRepoository, { IUserProps } from '../interfaces/repositories/usersInterface';
+import IUsersRepoository, { ICountResult, IUserProps } from '../interfaces/repositories/usersInterface';
 import dbConnection from '../database/config';
 import {
     addUserQuery,
-    getAllUsersQuery,
     getUserByIdQuery,
     updateUserQuery,
     deleteUserQuery,
-    createTable
+    countQuery
   } from '../database/queries/queries';
 
 @injectable()
@@ -24,9 +23,17 @@ class UserRepository implements IUsersRepoository {
         return createUser;
     }
     
-    async getAllUsers(): Promise<IUserProps[]> {
-        const [rows] = await dbConnection.execute(getAllUsersQuery);
-        return rows as IUserProps[];
+    async getAllUsers(page: number, limit: number): Promise<{ users: IUserProps[], totalUsers: number }> {
+        const offset = (page - 1) * limit;
+        
+        const getAllUsersQuery = `SELECT * FROM users ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}`;
+
+        const [countResults] = await dbConnection.execute(countQuery);
+        const totalUsers = (countResults as ICountResult[])[0].total;
+
+        const [rows] = await dbConnection.execute(getAllUsersQuery);        
+
+        return { users: rows as IUserProps[], totalUsers };
     }
     
     async getUserById(id: number): Promise<IUserProps | null> {

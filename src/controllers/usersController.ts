@@ -11,10 +11,19 @@ class UsersController {
 
     async getAllUsers(req: Request, res: Response): Promise<void> {
         try {
-            const response = await this.usersService.getAllUsers();
+            const page = parseInt(req.query.page as string);
+            const limit = parseInt(req.query.limit as string);
+
+            const response = await this.usersService.getAllUsers(page, limit);
 
             if (response) {
-                res.status(200).json(response);
+                res.status(200).json({
+                    page: page,
+                    limit: limit,
+                    totalUsers: response.totalUsers,
+                    totalPages: response.totalPages,
+                    users: response.users,
+                });
             } else {
                 res.status(404).json({ error: 'Users not found' });
             }

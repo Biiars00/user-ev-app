@@ -8,14 +8,20 @@ class UsersService {
         private usersRepository: IUsersRepoository
     ) {}
 
-    async getAllUsers(): Promise<IUserProps[]> {
-        const userList = await this.usersRepository.getAllUsers();
+    async getAllUsers(page: number, limit: number): Promise<{ users: IUserProps[], totalPages: number, totalUsers: number }> {
+        const { users, totalUsers } = await this.usersRepository.getAllUsers(page, limit);
 
-        if (userList.length === 0) {
-            return [];
+        if (users.length === 0) {
+            return { users: [], totalPages: 0, totalUsers: 0 };
         }
 
-        return userList;
+        const totalPages = Math.ceil(totalUsers / limit);
+
+        return {
+            users,
+            totalPages,
+            totalUsers
+        };
     }
 
     async getUserById(id: number): Promise<IUserProps | null> {
